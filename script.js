@@ -1,4 +1,3 @@
-//your JS code here. If required.
 const sounds = ['applause', 'boo', 'gasp', 'tada', 'victory', 'wrong'];
 
 // Create an audio element for each sound
@@ -7,14 +6,17 @@ sounds.forEach(sound => {
 
     // Add event listener to play the sound
     btn.addEventListener('click', () => {
-        stopSounds();
-        document.getElementById(sound).play();
+        stopSounds();  // Stop any currently playing sounds
+        const audio = document.getElementById(sound);
+        if (audio) {
+            audio.play();  // Play the selected sound
+        }
     });
 
-    // Create an audio element for each sound
+    // Create and append audio elements
     const audio = document.createElement('audio');
     audio.id = sound;
-    audio.src = `sounds/${sound}.mp3`;  // Assumes sounds folder contains the audio files
+    audio.src = `sounds/${sound}.mp3`;  // Ensure this path matches your folder structure
     document.body.appendChild(audio);
 });
 
@@ -27,7 +29,9 @@ document.querySelector('.stop').addEventListener('click', () => {
 function stopSounds() {
     sounds.forEach(sound => {
         const audio = document.getElementById(sound);
-        audio.pause();
-        audio.currentTime = 0;  // Reset sound to the beginning
+        if (audio && typeof audio.pause === 'function') {
+            audio.pause();
+            audio.currentTime = 0;  // Reset sound to the beginning
+        }
     });
 }
