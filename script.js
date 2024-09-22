@@ -8,9 +8,9 @@ sounds.forEach(sound => {
     btn.addEventListener('click', () => {
         stopSounds();  // Stop any currently playing sounds
         const audio = document.getElementById(sound);
-        // if (audio) {
-        //     audio.play();  // Play the selected sound
-        // }
+        if (audio && typeof audio.play === 'function') {
+            audio.play();  // Play the selected sound
+        }
     });
 
     // Create and append audio elements
