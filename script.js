@@ -1,28 +1,33 @@
 //your JS code here. If required.
-const buttons = document.querySelectorAll('.btn');
-const stopButton = document.querySelector('.stop');
-let currentAudio = null;
+const sounds = ['applause', 'boo', 'gasp', 'tada', 'victory', 'wrong'];
 
-buttons.forEach(button => {
-    button.addEventListener('click', () => {
-        const soundFile = button.getAttribute('data-sound');
-        
-        // Stop currently playing audio if any
-        if (currentAudio) {
-            currentAudio.pause();
-            currentAudio.currentTime = 0; // Reset to start
-        }
-        
-        // Play new audio
-        currentAudio = new Audio(soundFile);
-        currentAudio.play();
+// Create an audio element for each sound
+sounds.forEach(sound => {
+    const btn = document.getElementById(sound);
+
+    // Add event listener to play the sound
+    btn.addEventListener('click', () => {
+        stopSounds();
+        document.getElementById(sound).play();
     });
+
+    // Create an audio element for each sound
+    const audio = document.createElement('audio');
+    audio.id = sound;
+    audio.src = `sounds/${sound}.mp3`;  // Assumes sounds folder contains the audio files
+    document.body.appendChild(audio);
 });
 
-// Stop button functionality
-stopButton.addEventListener('click', () => {
-    if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0; // Reset to start
-    }
+// Stop all sounds when the stop button is clicked
+document.querySelector('.stop').addEventListener('click', () => {
+    stopSounds();
 });
+
+// Function to stop all sounds
+function stopSounds() {
+    sounds.forEach(sound => {
+        const audio = document.getElementById(sound);
+        audio.pause();
+        audio.currentTime = 0;  // Reset sound to the beginning
+    });
+}
